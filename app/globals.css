@@ -114,7 +114,7 @@ button { cursor:pointer; } button:disabled { opacity:.55; cursor:wait; }
 .hero-with-image{position:relative;min-height:520px;display:flex;align-items:center}
 .hero-bg-image{z-index:0;object-fit:cover;object-position:center}
 .hero-bg-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(250,249,245,.56),rgba(250,249,245,.72))}
-.hero-with-image .container{position:relative;z-index:2;width:100%}
+.hero-with-image .container{position:relative;z-index:2}
 .hero-with-image .hero-content{max-width:900px;padding:25px 0}
 .hero-with-image .hero-subtitle{max-width:620px}
 .home-banner{display:none}

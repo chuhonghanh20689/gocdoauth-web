@@ -6,7 +6,9 @@ import RecoveryRedirect from "@/components/RecoveryRedirect";
 import { displayFont, monoFont } from "@/app/fonts";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Góc Đồ Auth — Đồng hồ & Nước hoa chính hãng", description: "Catalogue đồng hồ và nước hoa chính hãng được tuyển chọn." };
+export const metadata = { title: "Góc Đồ Auth — Đồng hồ & Nước hoa chính hãng", description: "Catalogue đồng hồ và nước hoa chính hãng được tuyển chọn.", icons: {
+    icon: "/favicon.png",
+  }, };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const logo = await getSetting("logo_path", "/logo-placeholder.svg");
