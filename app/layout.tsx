@@ -1,0 +1,27 @@
+import "./globals.css";
+import Link from "next/link";
+import Image from "next/image";
+import { getSetting } from "@/lib/content";
+import RecoveryRedirect from "@/components/RecoveryRedirect";
+import { displayFont, monoFont } from "@/app/fonts";
+
+export const dynamic = "force-dynamic";
+export const metadata = { title: "Góc Đồ Auth — Đồng hồ & Nước hoa chính hãng", description: "Catalogue đồng hồ và nước hoa chính hãng được tuyển chọn." };
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const logo = await getSetting("logo_path", "/logo-placeholder.svg");
+  const siteName = await getSetting("site_name", "GÓC ĐỒ AUTH");
+  return <html lang="vi"><body className={`${displayFont.variable} ${monoFont.variable}`}><RecoveryRedirect /><div className="site-shell">
+    <header className="header"><div className="container">
+      <div className="topbar">
+        <Link href="/" className="brand-lockup" aria-label={siteName}>
+          <span className="logo-wrap"><Image src={logo} alt={siteName} width={180} height={80} priority unoptimized /></span>
+          <span className="brand-name">{siteName}</span>
+        </Link>
+        <input className="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Tìm kiếm sản phẩm" />
+      </div>
+      <nav className="nav"><Link href="/">Trang chủ</Link><Link href="/products">Sản phẩm</Link><Link href="/products/watches">Đồng hồ</Link><Link href="/products/perfumes">Nước hoa</Link><Link href="/about">Giới thiệu</Link><Link href="/contact">Liên hệ</Link></nav>
+    </div></header>{children}
+    <footer className="footer"><div className="container footer-grid"><div><h3>{siteName}</h3><p className="mono" style={{fontSize:12}}>ĐỒNG HỒ & NƯỚC HOA CHÍNH HÃNG</p></div><div><h3>Sản phẩm</h3><Link href="/products/watches">Đồng hồ</Link><Link href="/products/perfumes">Nước hoa</Link></div><div><h3>Thông tin</h3><Link href="/about">Giới thiệu</Link><Link href="/contact">Liên hệ</Link><Link href="/faq">Câu hỏi thường gặp</Link><Link href="/shipping">Vận chuyển & giao hàng</Link><Link href="/returns">Đổi trả & hoàn tiền</Link><Link href="/privacy">Chính sách bảo mật</Link><Link href="/terms">Điều khoản & điều kiện</Link></div></div></footer>
+  </div></body></html>;
+}
