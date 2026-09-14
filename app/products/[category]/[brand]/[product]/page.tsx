@@ -22,10 +22,21 @@ export default async function ProductDetail({
     .eq("status", "published")
     .maybeSingle();
 
-  const categoryRow = Array.isArray(p?.categories) ? p.categories[0] : p?.categories;
-  const brandRow = Array.isArray(p?.brands) ? p.brands[0] : p?.brands;
+  if (!p) {
+    return (
+      <main className="page">
+        <div className="container">
+          <h1>Không tìm thấy sản phẩm</h1>
+          <Link className="btn" href="/products">← Quay lại catalogue</Link>
+        </div>
+      </main>
+    );
+  }
 
-  if (!p || categoryRow?.slug !== category || brandRow?.slug !== brand) {
+  const categoryRow = Array.isArray(p.categories) ? p.categories[0] : p.categories;
+  const brandRow = Array.isArray(p.brands) ? p.brands[0] : p.brands;
+
+  if (categoryRow?.slug !== category || brandRow?.slug !== brand) {
     return (
       <main className="page">
         <div className="container">
