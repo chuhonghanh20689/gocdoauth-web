@@ -18,7 +18,7 @@ export async function GET(){
   const s=getSupabaseAdmin();
   const {data:pages,error}=await s.from("pages").select("page_key,title,content,seo_title,seo_description,is_published").in("page_key",pageKeys);
   if(error) return NextResponse.json({error:error.message},{status:500});
-  const {data:settings,error:se}=await s.from("site_settings").select("key,value").in("key",["logo_path","site_name","home_banner_path","category_watches_image","category_perfumes_image"]);
+  const {data:settings,error:se}=await s.from("site_settings").select("key,value").in("key",["logo_path","site_name","home_banner_path","category_watches_image","category_perfumes_image","footer_location"]);
   if(se) return NextResponse.json({error:se.message},{status:500});
   const out:any={branding:{}};
   for(const key of pageKeys) out[key]={page_key:key,title:defaultTitles[key],content:{}};
@@ -33,6 +33,7 @@ export async function GET(){
     if(x.key==="home_banner_path") out.branding.banner=x.value;
     if(x.key==="category_watches_image") out.branding.watchImage=x.value;
     if(x.key==="category_perfumes_image") out.branding.perfumeImage=x.value;
+    if(x.key==="footer_location") out.branding.footerLocation=x.value;
   }
   return NextResponse.json(out);
 }

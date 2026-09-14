@@ -15,9 +15,10 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [logo, siteName, admin] = await Promise.all([
+  const [logo, siteName, footerLocation, admin] = await Promise.all([
     getSetting("logo_path", "/logo-placeholder.svg"),
     getSetting("site_name", "GÓC ĐỒ AUTH"),
+    getSetting("footer_location", "Hà Nội, Việt Nam"),
     currentAdmin(),
   ]);
 
@@ -72,6 +73,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <div>
                 <h3>{siteName}</h3>
                 <p className="mono" style={{ fontSize: 12 }}>ĐỒNG HỒ & NƯỚC HOA / CATALOGUE</p>
+                <p className="mono" style={{ fontSize: 12, marginTop: 8 }}>{footerLocation}</p>
               </div>
               <div>
                 <h3>Sản phẩm</h3>
