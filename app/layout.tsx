@@ -5,7 +5,7 @@ import { getSetting } from "@/lib/content";
 import { currentAdmin } from "@/lib/auth";
 import RecoveryRedirect from "@/components/RecoveryRedirect";
 import Logout from "@/app/admin/Logout";
-import { displayFont, monoFont } from "@/app/fonts";
+import { displayFont, brandFont, monoFont } from "@/app/fonts";
 
 export const dynamic = "force-dynamic";
 export const metadata = {
@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="vi">
-      <body className={`${displayFont.variable} ${monoFont.variable}`}>
+      <body className={`${displayFont.variable} ${brandFont.variable} ${monoFont.variable}`}>
         <RecoveryRedirect />
         <div className="site-shell">
           <header className="header">
