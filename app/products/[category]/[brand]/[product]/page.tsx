@@ -1,16 +1,9 @@
 import Link from "next/link";
 import { getSupabasePublic } from "@/lib/supabase";
-import Image from "next/image";
+import { getProductImageUrl } from "@/components/RemoteImage";
+import ProductGallery from "@/components/ProductGallery";
 
 export const dynamic = "force-dynamic";
-
-function getProductImageUrl(src: string) {
-  if (!src) return "";
-  if (/^https?:\/\//i.test(src)) return src;
-  const base = (process.env.NEXT_PUBLIC_SUPABASE_URL || "").replace(/\/$/, "");
-  const path = String(src).replace(/^\/+/, "");
-  return `${base}/storage/v1/object/public/product-images/${path}`;
-}
 
 export default async function ProductDetail({
   params,
@@ -23,7 +16,7 @@ export default async function ProductDetail({
   const { data: p } = await supabase
     .from("products")
     .select(
-      "id,slug,name,price,currency,volume,description,details,condition,status,product_images(id,storage_path,alt,sort_order),categories!products_category_id_fkey(slug,name),brands!products_brand_id_fkey(slug,name)"
+      "id,slug,name,price,currency,description,details,condition,volume,status,product_images(id,storage_path,alt,sort_order),categories!products_category_id_fkey(slug,name),brands!products_brand_id_fkey(slug,name)"
     )
     .eq("slug", product)
     .eq("status", "published")
@@ -43,43 +36,59 @@ export default async function ProductDetail({
     );
   }
 
-  const images = [...(p.product_images || [])].sort(
-    (a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0)
-  );
-  const firstImage = images[0]?.storage_path ? getProductImageUrl(images[0].storage_path) : "";
+  const images = [...(p.product_images || [])]
+    .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
+    .filter((image: any) => image.storage_path)
+    .map((image: any) => ({
+      id: String(image.id),
+      src: getProductImageUrl(image.storage_path),
+      alt: image.alt || p.name,
+    }));
 
   return (
     <main className="page">
       <div className="container">
-        <div className="kicker">{brandRow?.name} / {categoryRow?.name}</div>
+        <div className="kicker">
+          <Link className="detail-category-link" href={`/products/${category}`}>
+            {categoryRow?.name}
+          </Link>
+          <span> / </span>
+          <Link className="detail-brand-link" href={`/products/${category}/${brand}`}>
+            {brandRow?.name}
+          </Link>
+        </div>
+
         <div className="split" style={{ alignItems: "start" }}>
-          <div>
-            {firstImage ? (
-              <Image
-                src={firstImage}
-                alt={images[0]?.alt || p.name}
-                width={1400}
-                height={1400}
-                sizes="(max-width: 800px) 100vw, 55vw"
-                style={{ width: "100%", height: "auto", maxHeight: 650, objectFit: "contain", background: "#e9e3d6" }}
-              />
-            ) : (
-              <div className="product-image" style={{ height: 500 }}>
-                <div className="placeholder">{brandRow?.name}<br /><small>{p.name}</small></div>
-              </div>
-            )}
-          </div>
+          <ProductGallery images={images} name={p.name} />
 
           <div>
-            <div className="brand">{brandRow?.name}</div>
-            <h1 style={{ marginTop: 8 }}>{p.name}</h1>
+            <Link className="brand detail-brand-link" href={`/products/${category}/${brand}`}>
+              {brandRow?.name}
+            </Link>
+
+            <h1 className="detail-title">{p.name}</h1>
+
             <div className="price" style={{ fontSize: 22, margin: "18px 0" }}>
               {p.price ? `${new Intl.NumberFormat("vi-VN").format(Number(p.price))} ${p.currency || "VND"}` : "Liên hệ"}
             </div>
-            {p.volume && <p><strong>Dung tích:</strong> {p.volume}</p>}
-            {p.description && <p style={{ whiteSpace: "pre-line", lineHeight: 1.8 }}>{p.description}</p>}
-            {p.details && <><h3>Thông tin sản phẩm</h3><p style={{ whiteSpace: "pre-line", lineHeight: 1.8 }}>{p.details}</p></>}
+
+            {p.volume && (
+              <p><strong>Dung tích:</strong> {p.volume}</p>
+            )}
+
+            {p.description && (
+              <p style={{ whiteSpace: "pre-line", lineHeight: 1.8 }}>{p.description}</p>
+            )}
+
+            {p.details && (
+              <>
+                <h3>Thông tin sản phẩm</h3>
+                <p style={{ whiteSpace: "pre-line", lineHeight: 1.8 }}>{p.details}</p>
+              </>
+            )}
+
             {p.condition && <p><strong>Tình trạng:</strong> {p.condition}</p>}
+
             <Link className="btn" href="/contact">Liên hệ sản phẩm →</Link>
           </div>
         </div>
