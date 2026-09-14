@@ -7,19 +7,25 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "set-owner-password": "node scripts/set-owner-password.mjs"
+    "set-owner-password": "node scripts/set-owner-password.mjs",
+    "import:products": "tsx scripts/import-products.ts"
   },
   "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "@supabase/supabase-js": "^2.57.4",
+    "dotenv": "^17.4.2",
+    "googleapis": "^180.0.0",
     "next": "15.5.24",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "@supabase/supabase-js": "^2.57.4"
+    "sharp": "^0.35.4"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "typescript": "^5",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "tsx": "^4.23.13",
+    "typescript": "^5"
   }
 }

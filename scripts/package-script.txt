@@ -1,0 +1,2 @@
+Thêm vào scripts trong package.json:
+"import:products": "tsx scripts/import-products.ts"
