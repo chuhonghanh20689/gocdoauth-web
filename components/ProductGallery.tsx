@@ -17,6 +17,9 @@ export default function ProductGallery({ images, name }: { images: GalleryImage[
   }
 
   const current = images[active] || images[0];
+  const hasMultiple = images.length > 1;
+  const previous = () => setActive((index) => (index - 1 + images.length) % images.length);
+  const next = () => setActive((index) => (index + 1) % images.length);
 
   return (
     <div className="product-gallery">
@@ -28,11 +31,17 @@ export default function ProductGallery({ images, name }: { images: GalleryImage[
           height={1400}
           sizes="(max-width: 800px) 100vw, 55vw"
           priority
-          style={{ width: "100%", height: "auto", maxHeight: 650, objectFit: "contain", background: "#e9e3d6" }}
+          className="product-gallery-image"
         />
+        {hasMultiple && (
+          <>
+            <button type="button" className="product-gallery-arrow prev" onClick={previous} aria-label="Ảnh trước">‹</button>
+            <button type="button" className="product-gallery-arrow next" onClick={next} aria-label="Ảnh tiếp theo">›</button>
+          </>
+        )}
       </div>
 
-      {images.length > 1 && (
+      {hasMultiple && (
         <div className="product-gallery-thumbs">
           {images.map((image, index) => (
             <button
@@ -41,6 +50,7 @@ export default function ProductGallery({ images, name }: { images: GalleryImage[
               className={`product-gallery-thumb${index === active ? " is-active" : ""}`}
               onClick={() => setActive(index)}
               aria-label={`Xem ảnh ${index + 1}`}
+              aria-current={index === active ? "true" : undefined}
             >
               <Image
                 src={image.src}

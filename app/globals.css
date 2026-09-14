@@ -161,87 +161,55 @@ button { cursor:pointer; } button:disabled { opacity:.55; cursor:wait; }
 .field-actions .btn:disabled{opacity:.55;cursor:wait}
 .field-msg{font-size:11px}
 
-/* Latest fixes: filters, admin navigation, product gallery, detail typography */
-.filter {
-  transition: background .15s ease, color .15s ease;
-}
-.filter:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
+/* Current catalogue/admin refinements */
+.filter { transition: background .15s ease, color .15s ease; }
+.filter:hover { background: var(--ink); color: var(--paper); }
 
 .admin-nav {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 10px 0 14px;
-  border-top: 1px solid var(--line);
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-  font-family: var(--font-mono), "Courier New", monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .06em;
+  display:flex; align-items:center; gap:20px; padding:10px 0 14px;
+  border-top:1px solid var(--line); overflow-x:auto; white-space:nowrap;
+  scrollbar-width:none; font-family:var(--font-mono),"Courier New",monospace;
+  font-size:11px; text-transform:uppercase; letter-spacing:.06em;
 }
-.admin-nav::-webkit-scrollbar { display: none; }
-.admin-nav-label { color: var(--accent); font-weight: 600; }
-.admin-nav a:hover { color: var(--accent); }
+.admin-nav::-webkit-scrollbar{display:none}
+.admin-nav-label{color:var(--accent);font-weight:600}
+.admin-nav a:hover{color:var(--accent)}
+.admin-nav-logout{border:0;background:transparent;padding:0;color:inherit;cursor:pointer;font:inherit;text-transform:uppercase;letter-spacing:inherit}
+.admin-nav-logout:hover{color:var(--accent)}
 
-.detail-category-link,
-.detail-brand-link { text-decoration: none; }
-.detail-category-link:hover,
-.detail-brand-link:hover { text-decoration: underline; }
+.detail-category-link,.detail-brand-link{text-decoration:none}
+.detail-category-link:hover,.detail-brand-link:hover{text-decoration:underline}
+.detail-title{font-family:var(--font-display),Georgia,serif;font-size:42px;line-height:1.08;margin:10px 0 20px;letter-spacing:-.035em}
 
-.detail-title {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 42px;
-  line-height: 1.08;
-  margin: 10px 0 20px;
-  letter-spacing: -.035em;
-}
+.search-form{display:block}
+.search{outline:none}
+.search:focus{border-color:var(--ink)}
+.search-form button{display:none}
+.search-results-note{font-family:var(--font-mono),"Courier New",monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin:-10px 0 24px;color:var(--muted)}
 
-.product-gallery { width: 100%; }
-.product-gallery-main { width: 100%; }
-.product-gallery-thumbs {
-  display: flex;
-  gap: 10px;
-  margin-top: 12px;
-  overflow-x: auto;
-  padding-bottom: 4px;
+.product-gallery{width:100%}
+.product-gallery-main{position:relative;width:100%}
+.product-gallery-image{display:block;width:100%;height:auto;max-height:650px;object-fit:contain;background:#e9e3d6}
+.product-gallery-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:42px;height:42px;border:1px solid var(--ink);background:rgba(250,249,245,.88);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-family:var(--font-mono),"Courier New",monospace;font-size:18px;line-height:1;
+  transition:background .15s ease,color .15s ease,opacity .15s ease;
 }
-.product-gallery-thumb {
-  position: relative;
-  flex: 0 0 82px;
-  width: 82px;
-  height: 82px;
-  padding: 0;
-  border: 1px solid var(--line);
-  background: transparent;
-  cursor: pointer;
-  overflow: hidden;
-  opacity: .65;
-  transition: opacity .15s ease, border-color .15s ease;
-}
-.product-gallery-thumb:hover,
-.product-gallery-thumb.is-active {
-  opacity: 1;
-  border-color: var(--ink);
-}
-.product-gallery-empty {
-  min-height: 500px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  font-family: var(--font-mono), "Courier New", monospace;
-  font-size: 12px;
-}
+.product-gallery-arrow:hover{background:var(--ink);color:var(--paper)}
+.product-gallery-arrow.prev{left:12px}
+.product-gallery-arrow.next{right:12px}
+.product-gallery-thumbs{display:flex;gap:10px;margin-top:12px;overflow-x:auto;padding-bottom:4px}
+.product-gallery-thumb{position:relative;flex:0 0 82px;width:82px;height:82px;padding:0;border:1px solid var(--line);background:transparent;cursor:pointer;overflow:hidden;opacity:.65;transition:opacity .15s ease,border-color .15s ease}
+.product-gallery-thumb:hover,.product-gallery-thumb.is-active{opacity:1;border-color:var(--ink)}
+.product-gallery-empty{min-height:500px;display:grid;place-items:center;border:1px solid var(--line);font-family:var(--font-mono),"Courier New",monospace;font-size:12px}
 
-@media (max-width: 900px) {
-  .detail-title { font-size: 38px; }
-}
-@media (max-width: 640px) {
-  .detail-title { font-size: 32px; }
-  .product-gallery-thumb { flex-basis: 68px; width: 68px; height: 68px; }
-  .admin-nav { gap: 14px; font-size: 10px; }
+@media(max-width:900px){.detail-title{font-size:38px}}
+@media(max-width:640px){
+  .detail-title{font-size:32px}
+  .product-gallery-thumb{flex-basis:68px;width:68px;height:68px}
+  .admin-nav{gap:14px;font-size:10px}
+  .product-gallery-arrow{width:36px;height:36px;font-size:15px}
+  .product-gallery-arrow.prev{left:8px}.product-gallery-arrow.next{right:8px}
 }

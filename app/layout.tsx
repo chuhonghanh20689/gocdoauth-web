@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getSetting } from "@/lib/content";
 import { currentAdmin } from "@/lib/auth";
 import RecoveryRedirect from "@/components/RecoveryRedirect";
+import Logout from "@/app/admin/Logout";
 import { displayFont, monoFont } from "@/app/fonts";
 
 export const dynamic = "force-dynamic";
@@ -34,7 +35,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   </span>
                   <span className="brand-name">{siteName}</span>
                 </Link>
-                <input className="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Tìm kiếm sản phẩm" />
+                <form className="search-form" action="/products" method="get">
+                  <input className="search" name="q" placeholder="Tìm kiếm sản phẩm..." aria-label="Tìm kiếm sản phẩm" />
+                </form>
               </div>
 
               <nav className="nav">
@@ -56,6 +59,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <Link href="/admin/content">Nội dung</Link>
                   <Link href="/admin/admins">Admin</Link>
                   <Link href="/admin/settings">Tài khoản</Link>
+                  <Logout compact />
                 </nav>
               )}
             </div>
