@@ -74,7 +74,9 @@ function parseVnd(value: unknown): number | null {
   if (!digits || digits === "-") return null;
 
   const n = Number(digits);
-  return Number.isFinite(n) ? n : null;
+  // Google Sheet stores Cost/Price in thousand VND (e.g. 4269 = 4,269,000 VND).
+  const vnd = n * 1000;
+  return Number.isFinite(vnd) ? vnd : null;
 }
 
 function parseVolume(value: unknown): string | null {
