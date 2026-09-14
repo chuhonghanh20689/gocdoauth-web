@@ -1,3 +1,13 @@
-import { getPage } from "@/lib/content";
 export const dynamic = "force-dynamic";
-export default async function Page(){const p=await getPage("privacy");const c=p?.content||{};return <main className="page"><div className="container"><div className="kicker">Thông tin</div><h1>{c.title||"Chính sách bảo mật"}</h1><p style={{whiteSpace:"pre-line",lineHeight:1.8}}>{c.body||"Nội dung đang được cập nhật. Bạn có thể chỉnh sửa trang này trong khu vực quản trị."}</p></div></main>}
+
+export default function Page(){
+  return <main className="page"><div className="container">
+    <div className="kicker">Thông tin</div>
+    <h1>Chính sách bảo mật</h1>
+    <p style={{whiteSpace:"pre-line",lineHeight:1.8}}>Góc Đồ Auth tôn trọng quyền riêng tư của người truy cập website. Website không yêu cầu tạo tài khoản để xem catalogue.
+
+Nếu bạn chủ động liên hệ qua các kênh được công khai trên website, thông tin bạn cung cấp chỉ được sử dụng để phản hồi nội dung bạn yêu cầu và phục vụ việc trao đổi cần thiết.
+
+Góc Đồ Auth không chủ động thu thập thông tin cá nhân không cần thiết cho mục đích vận hành website.</p>
+  </div></main>
+}

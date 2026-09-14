@@ -68,10 +68,6 @@ export default async function ProductDetail({
 
             <h1 className="detail-title">{p.name}</h1>
 
-            <div className="price" style={{ fontSize: 22, margin: "18px 0" }}>
-              {p.price ? `${new Intl.NumberFormat("vi-VN").format(Number(p.price))} ${p.currency || "VND"}` : "Liên hệ"}
-            </div>
-
             {p.volume && (
               <p><strong>Dung tích:</strong> {p.volume}</p>
             )}
@@ -89,7 +85,7 @@ export default async function ProductDetail({
 
             {p.condition && <p><strong>Tình trạng:</strong> {p.condition}</p>}
 
-            <Link className="btn" href="/contact">Liên hệ sản phẩm →</Link>
+            
           </div>
         </div>
       </div>

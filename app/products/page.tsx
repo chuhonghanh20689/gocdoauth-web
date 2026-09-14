@@ -51,7 +51,6 @@ export default async function Products({
         <div className="product-image">{p.product_images?.[0]?.storage_path ? <RemoteImage src={p.product_images[0].storage_path} alt={p.product_images[0].alt || p.name}/> : <div className="placeholder">{p.brands?.name}<br/><small>{p.name}</small></div>}</div>
         <div className="brand">{p.brands?.name || ""}</div>
         <div className="product-name">{p.name}</div>
-        <div className="price">{p.price ? `${new Intl.NumberFormat("vi-VN").format(Number(p.price))} ${p.currency || "VND"}` : "Liên hệ"}</div>
       </Link>)}</div> : <div className="admin-box">
         <p>{loadError ? `Không thể tải catalogue: ${loadError}` : query ? `Không tìm thấy sản phẩm phù hợp với “${query}”.` : "Chưa có sản phẩm đang hiển thị."}</p>
         {loadError ? <p className="mono" style={{fontSize:12}}>Nếu bạn vừa thay đổi quyền Supabase, hãy tải lại trang sau khi restart server.</p> : query ? <Link className="btn" href="/products">Xem tất cả sản phẩm →</Link> : <Link className="btn" href="/admin">Vào quản trị →</Link>}

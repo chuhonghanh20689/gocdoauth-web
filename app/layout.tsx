@@ -36,7 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <span className="brand-name">{siteName}</span>
                 </Link>
                 <form className="search-form" action="/products" method="get">
-                  <input className="search" name="q" placeholder="Tìm kiếm sản phẩm..." aria-label="Tìm kiếm sản phẩm" />
+                  <input className="search" name="q" placeholder="Tìm trong catalogue..." aria-label="Tìm trong catalogue" />
                 </form>
               </div>
 
@@ -71,7 +71,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <div className="container footer-grid">
               <div>
                 <h3>{siteName}</h3>
-                <p className="mono" style={{ fontSize: 12 }}>ĐỒNG HỒ & NƯỚC HOA CHÍNH HÃNG</p>
+                <p className="mono" style={{ fontSize: 12 }}>ĐỒNG HỒ & NƯỚC HOA / CATALOGUE</p>
               </div>
               <div>
                 <h3>Sản phẩm</h3>
@@ -82,9 +82,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 <h3>Thông tin</h3>
                 <Link href="/about">Giới thiệu</Link>
                 <Link href="/contact">Liên hệ</Link>
-                <Link href="/faq">Câu hỏi thường gặp</Link>
-                <Link href="/shipping">Vận chuyển & giao hàng</Link>
-                <Link href="/returns">Đổi trả & hoàn tiền</Link>
                 <Link href="/privacy">Chính sách bảo mật</Link>
                 <Link href="/terms">Điều khoản & điều kiện</Link>
               </div>
