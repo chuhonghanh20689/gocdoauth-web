@@ -77,13 +77,21 @@ export default async function Products({
 
         {!loadError && total > 0 && (
           <div className="product-count">
-            Hiển thị {start + 1}–{Math.min(start + PAGE_SIZE, total)} trong {total}{" "}
+            Hiển thị {start + 1}–{Math.min(start + pageSize, total)} trong {total}{" "}
             {query ? "sản phẩm phù hợp" : "sản phẩm"}
           </div>
         )}
 
         {paginatedItems.length ? (
           <>
+
+            <ProductPagination
+              page={safePage}
+              total={total}
+              pageSize={pageSize}
+              basePath="/products"
+              query={query}
+            />
             <div className="product-grid">
               {paginatedItems.map((p) => (
                 <Link

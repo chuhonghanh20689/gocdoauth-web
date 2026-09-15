@@ -74,12 +74,19 @@ export default async function Category({
 
         {total > 0 && (
           <div className="product-count">
-            Hiển thị {start + 1}–{Math.min(start + PAGE_SIZE, total)} trong {total} sản phẩm
+            Hiển thị {start + 1}–{Math.min(start + pageSize, total)} trong {total} sản phẩm
           </div>
         )}
 
         {paginatedItems.length ? (
           <>
+
+            <ProductPagination
+              page={safePage}
+              total={total}
+              pageSize={pageSize}
+              basePath={`/products/${category}`}
+            />
             <div className="product-grid">
               {paginatedItems.map((p) => (
                 <Link
