@@ -10,7 +10,7 @@ const PAGE_SIZE = 12;
 export default async function Products({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string | string[]; page?: string | string[] }>;
+  searchParams: Promise<{ q?: string | string[]; page?: string | string[]; pageSize?: string | string[] }>;
 }) {
   const params = await searchParams;
   const rawQuery = Array.isArray(params?.q) ? params.q[0] : params?.q;
@@ -18,6 +18,11 @@ export default async function Products({
   const rawPage = Array.isArray(params?.page) ? params.page[0] : params?.page;
   const requestedPage = Number.parseInt(String(rawPage || "1"), 10);
   const page = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  const rawPageSize = Array.isArray(params?.pageSize)
+    ? params.pageSize[0]
+    : params?.pageSize;
+  const parsedPageSize = Number.parseInt(String(rawPageSize || "12"), 10);
+  const pageSize = [12, 24, 36, 48].includes(parsedPageSize) ? parsedPageSize : 12;
 
   let items: any[] = [];
   let loadError = "";
@@ -46,10 +51,10 @@ export default async function Products({
   }
 
   const total = items.length;
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * PAGE_SIZE;
-  const paginatedItems = items.slice(start, start + PAGE_SIZE);
+  const start = (safePage - 1) * pageSize;
+  const paginatedItems = items.slice(start, start + pageSize);
 
   return (
     <main>
@@ -109,7 +114,7 @@ export default async function Products({
             <ProductPagination
               page={safePage}
               total={total}
-              pageSize={PAGE_SIZE}
+              pageSize={pageSize}
               basePath="/products"
               query={query}
             />

@@ -339,7 +339,6 @@ img { max-width: 100%; }
   .product-grid { grid-template-columns: 1fr; }
 }
 
-
 /* Product catalogue count + pagination */
 .product-count {
   font-family: var(--font-mono), "Courier New", monospace;
@@ -350,14 +349,18 @@ img { max-width: 100%; }
   margin: -10px 0 24px;
 }
 
+.product-pagination-wrap {
+  margin: 42px 0 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
 .product-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 18px;
-  margin: 42px 0 12px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
+  margin: 0;
   font-family: var(--font-mono), "Courier New", monospace;
   font-size: 11px;
   text-transform: uppercase;
@@ -413,25 +416,76 @@ img { max-width: 100%; }
   color: var(--muted);
 }
 
+.pagination-size {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-family: var(--font-mono), "Courier New", monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+}
+
+.pagination-size-options {
+  display: flex;
+  gap: 5px;
+}
+
+.pagination-size-option {
+  min-width: 30px;
+  height: 28px;
+  padding: 0 7px;
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  transition: background .15s ease, color .15s ease;
+}
+
+.pagination-size-option:hover,
+.pagination-size-option.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
 @media (max-width: 640px) {
-  .product-pagination {
-    gap: 8px;
+  .product-pagination-wrap {
     margin-top: 32px;
+    padding-top: 16px;
+  }
+
+  .product-pagination {
+    gap: 6px;
     font-size: 9px;
   }
 
   .pagination-pages {
-    gap: 4px;
+    gap: 3px;
   }
 
   .pagination-page {
     min-width: 29px;
     height: 29px;
-    padding: 0 7px;
+    padding: 0 6px;
   }
 
   .pagination-arrow {
     height: 29px;
-    padding: 0 7px;
+    padding: 0 6px;
+  }
+
+  .pagination-size {
+    flex-wrap: wrap;
+    margin-top: 14px;
+  }
+
+  .pagination-size-option {
+    height: 27px;
+    min-width: 29px;
   }
 }

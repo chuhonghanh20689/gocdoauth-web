@@ -12,7 +12,7 @@ export default async function Category({
   searchParams,
 }: {
   params: Promise<{ category: string }>;
-  searchParams: Promise<{ page?: string | string[] }>;
+  searchParams: Promise<{ page?: string | string[]; pageSize?: string | string[] }>;
 }) {
   const { category } = await params;
   const queryParams = await searchParams;
@@ -28,6 +28,11 @@ export default async function Category({
     : queryParams?.page;
   const requestedPage = Number.parseInt(String(rawPage || "1"), 10);
   const page = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  const rawPageSize = Array.isArray(queryParams?.pageSize)
+    ? queryParams.pageSize[0]
+    : queryParams?.pageSize;
+  const parsedPageSize = Number.parseInt(String(rawPageSize || "12"), 10);
+  const pageSize = [12, 24, 36, 48].includes(parsedPageSize) ? parsedPageSize : 12;
 
   let items: any[] = [];
   try {
@@ -40,10 +45,10 @@ export default async function Category({
 
   const brands = Array.from(new Map<string, string>(brandPairs).entries());
   const total = items.length;
-  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * PAGE_SIZE;
-  const paginatedItems = items.slice(start, start + PAGE_SIZE);
+  const start = (safePage - 1) * pageSize;
+  const paginatedItems = items.slice(start, start + pageSize);
 
   return (
     <main>
@@ -105,7 +110,7 @@ export default async function Category({
             <ProductPagination
               page={safePage}
               total={total}
-              pageSize={PAGE_SIZE}
+              pageSize={pageSize}
               basePath={`/products/${category}`}
             />
           </>
