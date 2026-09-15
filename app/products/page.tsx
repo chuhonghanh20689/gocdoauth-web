@@ -70,14 +70,11 @@ export default async function Products({
           <Link className="filter" href="/products/perfumes">Nước hoa</Link>
         </div>
 
-        {!loadError && (
+        {!loadError && total > 0 && (
           <div className="product-count">
-            {total} sản phẩm
+            Hiển thị {start + 1}–{Math.min(start + PAGE_SIZE, total)} trong {total}{" "}
+            {query ? "sản phẩm phù hợp" : "sản phẩm"}
           </div>
-        )}
-
-        {query && !loadError && (
-          <div className="search-results-note">{total} sản phẩm phù hợp</div>
         )}
 
         {paginatedItems.length ? (

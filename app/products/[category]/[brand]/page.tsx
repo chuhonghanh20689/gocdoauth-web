@@ -49,7 +49,11 @@ export default async function BrandPage({
       </div>
 
       <div className="container">
-        <div className="product-count">{total} sản phẩm</div>
+        {total > 0 && (
+          <div className="product-count">
+            Hiển thị {start + 1}–{Math.min(start + PAGE_SIZE, total)} trong {total} sản phẩm
+          </div>
+        )}
 
         {paginatedItems.length ? (
           <>
