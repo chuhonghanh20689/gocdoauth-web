@@ -12,7 +12,7 @@ export default async function Category({
   searchParams,
 }: {
   params: Promise<{ category: string }>;
-  searchParams: Promise<{ page?: string | string[]; pageSize?: string | string[] }>;
+  searchParams: Promise<{ page?: string | string[]; pageSize?: string | string[]; sort?: string | string[] }>;
 }) {
   const { category } = await params;
   const queryParams = await searchParams;
@@ -33,6 +33,10 @@ export default async function Category({
     : queryParams?.pageSize;
   const parsedPageSize = Number.parseInt(String(rawPageSize || "12"), 10);
   const pageSize = [12, 24, 36, 48].includes(parsedPageSize) ? parsedPageSize : 12;
+  const rawSort = Array.isArray(queryParams?.sort)
+    ? queryParams.sort[0]
+    : queryParams?.sort;
+  const sort = rawSort === "oldest" ? "oldest" : "newest";
 
   let items: any[] = [];
   try {
@@ -44,6 +48,12 @@ export default async function Category({
     .filter(([s]) => Boolean(s));
 
   const brands = Array.from(new Map<string, string>(brandPairs).entries());
+  items.sort((a, b) => {
+    const aTime = new Date(a.created_at || 0).getTime();
+    const bTime = new Date(b.created_at || 0).getTime();
+    return sort === "oldest" ? aTime - bTime : bTime - aTime;
+  });
+
   const total = items.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const safePage = Math.min(page, totalPages);
@@ -86,6 +96,7 @@ export default async function Category({
               total={total}
               pageSize={pageSize}
               basePath={`/products/${category}`}
+              sort={sort}
             />
             <div className="product-grid">
               {paginatedItems.map((p) => (
@@ -119,6 +130,7 @@ export default async function Category({
               total={total}
               pageSize={pageSize}
               basePath={`/products/${category}`}
+              sort={sort}
             />
           </>
         ) : (

@@ -8,6 +8,7 @@ type ProductPaginationProps = {
   pageSize?: number;
   basePath: string;
   query?: string;
+  sort?: "newest" | "oldest";
 };
 
 const PAGE_SIZE_OPTIONS = [12, 24, 36, 48];
@@ -18,6 +19,7 @@ export default function ProductPagination({
   pageSize = 12,
   basePath,
   query,
+  sort = "newest",
 }: ProductPaginationProps) {
   const totalPages = Math.ceil(total / pageSize);
   if (totalPages <= 0) return null;
@@ -27,6 +29,7 @@ export default function ProductPagination({
 
     if (pageNumber > 1) params.set("page", String(pageNumber));
     if (pageSize !== 12) params.set("pageSize", String(pageSize));
+    if (sort !== "newest") params.set("sort", sort);
     if (query) params.set("q", query);
 
     const qs = params.toString();
@@ -88,6 +91,21 @@ export default function ProductPagination({
 
         <form className="pagination-size-form" action={basePath} method="get">
           {query && <input type="hidden" name="q" value={query} />}
+
+          <label htmlFor={`sort-${basePath.replace(/[^a-z0-9]/gi, "-")}`}>
+            Sắp xếp
+          </label>
+          <select
+            id={`sort-${basePath.replace(/[^a-z0-9]/gi, "-")}`}
+            name="sort"
+            defaultValue={sort}
+            aria-label="Cách sắp xếp sản phẩm"
+            onChange={(e) => e.currentTarget.form?.requestSubmit()}
+          >
+            <option value="newest">Mới nhất</option>
+            <option value="oldest">Cũ nhất</option>
+          </select>
+
           <label htmlFor={`page-size-${basePath.replace(/[^a-z0-9]/gi, "-")}`}>
             Sản phẩm / trang
           </label>
