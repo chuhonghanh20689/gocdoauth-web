@@ -14,9 +14,9 @@ export async function getProducts(options?: { category?: string; featured?: bool
   const supabase = getSupabasePublic();
   let q = supabase
     .from("products")
-    .select("id,slug,name,price,currency,description,details,condition,status,featured,sort_order,category_id,brand_id,product_images(id,storage_path,alt,sort_order),categories!products_category_id_fkey(slug,name),brands!products_brand_id_fkey(slug,name)")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
+    .select("id,slug,name,price,currency,description,details,condition,status,featured,sort_order,category_id,brand_id,created_at,product_images(id,storage_path,alt,sort_order),categories!products_category_id_fkey(slug,name),brands!products_brand_id_fkey(slug,name)")
+    .order("created_at", { ascending: false })
+    .order("sort_order", { ascending: true });
   if (options?.category) q = q.eq("categories.slug", options.category);
   if (options?.featured) q = q.eq("featured", true);
   const { data, error } = await q.eq("status", "published");
