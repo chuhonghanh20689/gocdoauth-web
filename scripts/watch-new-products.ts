@@ -252,15 +252,20 @@ async function getOrCreateBrand(
 ): Promise<Brand> {
   const brandSlug = slugify(brandName);
 
+  // brands.slug is UNIQUE globally, not per category.
+  // Therefore we must look up by slug first, regardless of category.
+  // Otherwise the same brand appearing in another category would cause
+  // "duplicate key value violates unique constraint brands_slug_key".
   const { data, error } = await sb
     .from("brands")
-    .select("id,slug,name")
-    .eq("category_id", categoryId)
+    .select("id,slug,name,category_id")
     .eq("slug", brandSlug)
     .limit(1);
 
   if (error) throw error;
-  if (data?.[0]) return data[0] as Brand;
+  if (data?.[0]) {
+    return data[0] as Brand;
+  }
 
   const { data: created, error: createError } = await sb
     .from("brands")
@@ -271,13 +276,30 @@ async function getOrCreateBrand(
       is_active: true,
       sort_order: 0,
     })
-    .select("id,slug,name")
+    .select("id,slug,name,category_id")
     .single();
 
-  if (createError) throw createError;
+  if (createError) {
+    // Another row may have created the same brand between the lookup
+    // and insert. Re-read it instead of failing the whole product.
+    if (createError.code === "23505") {
+      const { data: existingAfterConflict, error: lookupError } = await sb
+        .from("brands")
+        .select("id,slug,name,category_id")
+        .eq("slug", brandSlug)
+        .limit(1);
+
+      if (lookupError) throw lookupError;
+      if (existingAfterConflict?.[0]) {
+        return existingAfterConflict[0] as Brand;
+      }
+    }
+
+    throw createError;
+  }
+
   return created as Brand;
 }
-
 async function getExistingSkus(
   sb: SupabaseClient,
   categoryId: string,
